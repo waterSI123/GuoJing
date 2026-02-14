@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
           <div className="bg-white p-4 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.1)] rounded-sm border border-gray-50">
              {/* Updated to use local asset for the custom gradient QR code */}
              <img 
-               src="/GuoJing/wechat-qr.png" 
+               src="/wechat-qr.png" 
                alt="WeChat QR Code" 
                className="w-36 h-36 object-contain"
              />
