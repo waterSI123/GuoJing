@@ -27,7 +27,7 @@ const Hero: React.FC = () => {
           className="flex flex-col md:flex-row items-center gap-6 md:gap-10"
         >
           {/* Seal Logo - Refined for elegance */}
-          <div className="w-24 h-24 bg-vermilion shadow-2xl shadow-vermilion/20 flex items-center justify-center shrink-0">
+          <div className="w-24 h-24 bg-vermilion shadow-2xl shadow-vermilion/20 flex items-center justify-center shrink-0 rounded-full">
             <span className="font-serif text-white text-5xl font-bold writing-vertical-rl select-none pt-1">
               {ARTIST_INFO.name}
             </span>

@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
         <div className="max-w-3xl space-y-10">
           <div className="flex items-center gap-4">
              <div className="w-10 h-10 bg-ink rounded-full flex items-center justify-center text-white font-serif font-bold text-base shrink-0">
-                果酱
+                郭靖
              </div>
              <h2 className="text-xl font-serif font-bold text-ink">关于 · About</h2>
           </div>

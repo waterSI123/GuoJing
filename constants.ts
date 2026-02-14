@@ -111,12 +111,12 @@ export const CATEGORIES: Category[] = [
 ];
 
 export const ARTIST_INFO = {
-  name: '果酱',
-  englishName: 'Guo Jiang',
+  name: '郭靖',
+  englishName: 'Guo Jing',
   title: '游戏原画设计师 / Concept Artist',
   slogan: '笔墨之间，构建幻想。',
   // Replaced simple description with structured data
-  intro: '果酱 | 游戏原画师 | 独立数字艺术家',
+  intro: '郭靖 | 游戏原画师 | 独立数字艺术家',
   subIntro: '专注东方美学与现代潮流的视觉重构，擅长高精度角色设计与IP风格化塑造。',
   highlights: [
     { label: '核心资历', content: '曾任职于搜狐畅游、腾讯系合作项目，负责《天龙八部》手游、《QQ炫舞》手游核心视觉设计。' },
