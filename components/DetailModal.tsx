@@ -62,22 +62,23 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, category, onClose }) 
                   {category.title}
                 </h2>
                 <div className="w-12 h-1 bg-vermilion mx-auto mb-4" />
-                <p className="text-secondary font-light tracking-widest uppercase">
+                {/* Enhanced visibility for subtitle: Darker, bolder, slightly larger */}
+                <p className="text-ink/80 font-medium tracking-widest uppercase text-sm md:text-base">
                   {category.subtitle}
                 </p>
               </div>
 
               {/* Gallery Grid */}
-              <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pb-20">
+              <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16 pb-20">
                 {category.artworks.map((art, index) => (
                   <motion.div
                     key={art.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex flex-col gap-3 group"
+                    className="flex flex-col group"
                   >
-                    <div className="w-full overflow-hidden bg-white shadow-sm hover:shadow-xl transition-shadow duration-500 rounded-sm">
+                    <div className="w-full overflow-hidden bg-white shadow-sm hover:shadow-xl transition-shadow duration-500 rounded-sm mb-5">
                       <img 
                         src={art.imageUrl} 
                         alt={art.title} 
@@ -85,9 +86,19 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, category, onClose }) 
                         loading="lazy"
                       />
                     </div>
-                    <div className="flex justify-between items-baseline px-1">
-                      <span className="text-base font-serif text-ink">{art.title}</span>
-                      <span className="text-xs text-gray-400 font-mono">0{index + 1}</span>
+                    
+                    {/* Artwork Info */}
+                    <div className="flex flex-col space-y-3 px-1">
+                      <div className="flex justify-between items-end border-b border-gray-200 pb-3">
+                        <h3 className="text-xl font-serif font-bold text-ink">{art.title}</h3>
+                        <span className="text-sm text-gray-400 font-mono tracking-widest">
+                          NO.{(index + 1).toString().padStart(2, '0')}
+                        </span>
+                      </div>
+                      {/* Enhanced visibility for description: Standard size, normal weight, darker color */}
+                      <p className="text-base text-secondary font-normal leading-relaxed pt-1 text-justify opacity-90">
+                        {art.description}
+                      </p>
                     </div>
                   </motion.div>
                 ))}

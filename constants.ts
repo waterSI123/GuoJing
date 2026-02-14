@@ -4,7 +4,9 @@ import { Category } from './types';
 const generateArtworks = (prefix: string, count: number, startId: number) => {
   return Array.from({ length: count }).map((_, i) => ({
     id: `${prefix}${i}`,
-    title: `作品展示 ${i + 1} - Artwork ${i + 1}`,
+    title: `作品展示名称 ${i + 1}`,
+    // New Chinese style placeholder description
+    description: '设计灵感源自传统神话传说，结合了东方服饰的形制特点。色彩上选用了低饱和度的传统色系，试图营造出一种神秘而庄重的韵味。细节处运用了工笔画的线条表现手法，留白处理给予观者更多的想象空间。',
     imageUrl: `https://picsum.photos/id/${(startId + i) % 1000}/1200/1600`
   }));
 };
@@ -113,7 +115,15 @@ export const ARTIST_INFO = {
   englishName: 'Guo Jiang',
   title: '游戏原画设计师 / Concept Artist',
   slogan: '笔墨之间，构建幻想。',
-  description: '专注于新中式幻想风格的角色与场景设计。七年从业经验，曾参与《山海经异闻录》、《剑侠图》等项目开发。擅长在传统水墨韵味与现代游戏美术之间寻找平衡。',
-  email: 'guojiang_art@example.com',
-  artstation: 'artstation.com/guojiang',
+  // Replaced simple description with structured data
+  intro: '果酱 | 游戏原画师 | 独立数字艺术家',
+  subIntro: '专注东方美学与现代潮流的视觉重构，擅长高精度角色设计与IP风格化塑造。',
+  highlights: [
+    { label: '核心资历', content: '曾任职于搜狐畅游、腾讯系合作项目，负责《天龙八部》手游、《QQ炫舞》手游核心视觉设计。' },
+    { label: '专业领域', content: 'AAA级角色概念设计 / 国风武侠美学 / 现代时尚人物塑造 / AI辅助前沿工作流。' },
+    { label: '独立艺术', content: '作为独立创作者，成功孵化了个人原创世界观IP与品牌矩阵，形成高粘性粉丝群体。' },
+    { label: '教育背景', content: '北京工业大学 动画专业（211双一流）。' }
+  ],
+  email: '1446629536@qq.com',
+  phone: '18301683592',
 };

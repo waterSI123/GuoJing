@@ -3,6 +3,7 @@ export interface Artwork {
   title: string;
   imageUrl: string;
   year?: string;
+  description?: string; // Added description field
 }
 
 export interface Category {
