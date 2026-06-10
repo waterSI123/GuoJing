@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
-import { Category } from '../types';
+import { Maximize2, X } from 'lucide-react';
+import { Artwork, Category } from '../types';
 
 interface DetailModalProps {
   isOpen: boolean;
@@ -10,6 +10,7 @@ interface DetailModalProps {
 }
 
 const DetailModal: React.FC<DetailModalProps> = ({ isOpen, category, onClose }) => {
+  const [previewArtwork, setPreviewArtwork] = useState<Artwork | null>(null);
   
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -22,6 +23,14 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, category, onClose }) 
       document.body.style.overflow = 'auto';
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setPreviewArtwork(null);
+    }
+  }, [isOpen]);
+
+  const closePreview = () => setPreviewArtwork(null);
 
   if (!category) return null;
 
@@ -70,15 +79,25 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, category, onClose }) 
 
               {/* Gallery Grid */}
               <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16 pb-20">
-                {category.artworks.map((art, index) => (
+                {category.artworks.map((art, index) => {
+                  const shouldPairFinalMythicalGifs =
+                    category.id === 'shenshou-shenqi' && index >= category.artworks.length - 2;
+                  const shouldSpanFullRow = art.layout === 'full';
+
+                  return (
                   <motion.div
                     key={art.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex flex-col group"
+                    className={`flex flex-col group ${shouldSpanFullRow ? 'md:col-span-2' : ''} ${shouldPairFinalMythicalGifs ? 'md:col-span-1' : ''}`}
                   >
-                    <div className="w-full overflow-hidden bg-white shadow-sm hover:shadow-xl transition-shadow duration-500 rounded-sm mb-5">
+                    <button
+                      type="button"
+                      onClick={() => setPreviewArtwork(art)}
+                      className="relative w-full overflow-hidden bg-white shadow-sm hover:shadow-xl transition-shadow duration-500 rounded-sm mb-5 text-left focus:outline-none focus:ring-2 focus:ring-vermilion/50 group/image"
+                      aria-label={`查看大图：${art.title}`}
+                    >
                       <img 
                         src={art.imageUrl} 
                         alt={art.title} 
@@ -86,7 +105,11 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, category, onClose }) 
                         loading="lazy"
                         decoding="async"
                       />
-                    </div>
+                      <span className="absolute right-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-2 text-xs font-medium text-ink shadow-sm opacity-0 transition-opacity duration-300 group-hover/image:opacity-100">
+                        <Maximize2 size={14} />
+                        查看大图
+                      </span>
+                    </button>
                     
                     {/* Artwork Info */}
                     <div className="flex flex-col space-y-3 px-1">
@@ -102,11 +125,59 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, category, onClose }) 
                       </p>
                     </div>
                   </motion.div>
-                ))}
+                  );
+                })}
               </div>
 
             </div>
           </motion.div>
+
+          <AnimatePresence>
+            {previewArtwork && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[70] bg-black/90 backdrop-blur-sm"
+                onClick={closePreview}
+              >
+                <button
+                  type="button"
+                  onClick={closePreview}
+                  className="fixed top-5 right-5 z-[80] p-3 bg-white text-ink rounded-full shadow-lg hover:text-vermilion transition-colors"
+                  aria-label="关闭大图"
+                >
+                  <X size={24} />
+                </button>
+
+                <div className="h-full w-full overflow-auto px-4 py-16 md:px-10 md:py-20">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.25 }}
+                    className="mx-auto flex min-h-full max-w-[1600px] flex-col items-center justify-center gap-5"
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <img
+                      src={previewArtwork.fullImageUrl || previewArtwork.imageUrl}
+                      alt={previewArtwork.title}
+                      className="max-h-none w-auto max-w-full object-contain shadow-2xl md:max-h-[82vh]"
+                      decoding="async"
+                    />
+                    <div className="max-w-4xl text-center text-white">
+                      <h3 className="text-xl md:text-2xl font-serif font-bold">{previewArtwork.title}</h3>
+                      {previewArtwork.description && (
+                        <p className="mt-3 text-sm md:text-base leading-relaxed text-white/75">
+                          {previewArtwork.description}
+                        </p>
+                      )}
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </>
       )}
     </AnimatePresence>

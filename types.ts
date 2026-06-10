@@ -2,6 +2,8 @@ export interface Artwork {
   id: string;
   title: string;
   imageUrl: string;
+  fullImageUrl?: string;
+  layout?: 'full' | 'half';
   year?: string;
   description?: string; // Added description field
 }
