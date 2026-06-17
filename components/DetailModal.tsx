@@ -119,10 +119,11 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, category, onClose }) 
                           NO.{(index + 1).toString().padStart(2, '0')}
                         </span>
                       </div>
-                      {/* Enhanced visibility for description: Standard size, normal weight, darker color */}
-                      <p className="text-base text-secondary font-normal leading-relaxed pt-1 text-justify opacity-90">
-                        {art.description}
-                      </p>
+                      {art.description && (
+                        <p className="text-base text-secondary font-normal leading-relaxed pt-1 text-justify opacity-90">
+                          {art.description}
+                        </p>
+                      )}
                     </div>
                   </motion.div>
                   );
