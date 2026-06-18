@@ -1,61 +1,76 @@
 import { Category, ResumeProfile } from './types';
 
 const portfolioBaseUrl = (import.meta.env.VITE_PORTFOLIO_BASE_URL ?? '').replace(/\/$/, '');
-const portfolioImage = (path: string) => `${portfolioBaseUrl}${path}`;
+const originalPortfolioImage = (path: string) => `${portfolioBaseUrl}${path}`;
+const optimizedPortfolioImage = (variant: 'thumb' | 'gallery', path: string) =>
+  `/portfolio-optimized/${variant}${path.replace(/^\/portfolio/, '').replace(/\.[^/.]+$/, '.webp')}`;
+
+interface PortfolioImageSet {
+  full: string;
+  gallery: string;
+  thumb: string;
+}
+
+const portfolioImageSet = (path: string): PortfolioImageSet => ({
+  full: originalPortfolioImage(path),
+  gallery: optimizedPortfolioImage('gallery', path),
+  thumb: optimizedPortfolioImage('thumb', path),
+});
 
 const makeArtworks = (
   prefix: string,
-  paths: string[],
+  images: PortfolioImageSet[],
   titles: string[],
   descriptions: string[],
   layouts?: Array<'full' | 'half'>
-) => paths.map((imageUrl, index) => ({
+) => images.map((image, index) => ({
   id: `${prefix}-${String(index + 1).padStart(2, '0')}`,
   title: titles[index],
   description: descriptions[index],
-  imageUrl,
-  fullImageUrl: imageUrl,
+  imageUrl: image.gallery,
+  thumbnailUrl: image.thumb,
+  fullImageUrl: image.full,
   layout: layouts?.[index],
 }));
 
-const ancientFashionImages = Array.from({ length: 9 }, (_, index) => portfolioImage(`/portfolio/gufeng-shizhuang/${String(index + 1).padStart(2, '0')}.jpg`));
+const ancientFashionImages = Array.from({ length: 9 }, (_, index) => portfolioImageSet(`/portfolio/gufeng-shizhuang/${String(index + 1).padStart(2, '0')}.jpg`));
 const commercialIllustrationImages = [
-  ...Array.from({ length: 13 }, (_, index) => portfolioImage(`/portfolio/shangye-chahua/${index + 1}.png`)),
-  portfolioImage('/portfolio/shangye-chahua/14.jpg'),
-  ...Array.from({ length: 7 }, (_, index) => portfolioImage(`/portfolio/shangye-chahua/${index + 15}.png`)),
+  ...Array.from({ length: 13 }, (_, index) => portfolioImageSet(`/portfolio/shangye-chahua/${index + 1}.png`)),
+  portfolioImageSet('/portfolio/shangye-chahua/14.jpg'),
+  ...Array.from({ length: 7 }, (_, index) => portfolioImageSet(`/portfolio/shangye-chahua/${index + 15}.png`)),
 ];
 const mythicalArtifactImages = [
-  ...Array.from({ length: 14 }, (_, index) => portfolioImage(`/portfolio/shenshou-shenqi/${String(index + 1).padStart(2, '0')}.jpg`)),
-  portfolioImage('/portfolio/shenshou-shenqi/15.gif'),
-  portfolioImage('/portfolio/shenshou-shenqi/16.gif'),
+  ...Array.from({ length: 14 }, (_, index) => portfolioImageSet(`/portfolio/shenshou-shenqi/${String(index + 1).padStart(2, '0')}.jpg`)),
+  portfolioImageSet('/portfolio/shenshou-shenqi/15.gif'),
+  portfolioImageSet('/portfolio/shenshou-shenqi/16.gif'),
 ];
 const modernFashionImages = [
-  portfolioImage('/portfolio/xiandai-shizhuang/01.2.PNG'),
-  portfolioImage('/portfolio/xiandai-shizhuang/01.3.PNG'),
-  portfolioImage('/portfolio/xiandai-shizhuang/02.jpg'),
-  portfolioImage('/portfolio/xiandai-shizhuang/03.jpg'),
-  portfolioImage('/portfolio/xiandai-shizhuang/04.gif'),
-  portfolioImage('/portfolio/xiandai-shizhuang/05.gif'),
-  portfolioImage('/portfolio/xiandai-shizhuang/02.2.PNG'),
-  portfolioImage('/portfolio/xiandai-shizhuang/02.3.PNG'),
-  portfolioImage('/portfolio/xiandai-shizhuang/07.jpg'),
-  portfolioImage('/portfolio/xiandai-shizhuang/08.jpg'),
-  portfolioImage('/portfolio/xiandai-shizhuang/09.gif'),
-  portfolioImage('/portfolio/xiandai-shizhuang/10.gif'),
-  portfolioImage('/portfolio/xiandai-shizhuang/03.02.JPG'),
-  portfolioImage('/portfolio/xiandai-shizhuang/03.03.JPG'),
-  portfolioImage('/portfolio/xiandai-shizhuang/12.jpg'),
-  portfolioImage('/portfolio/xiandai-shizhuang/13.jpg'),
-  portfolioImage('/portfolio/xiandai-shizhuang/04.02.PNG'),
-  portfolioImage('/portfolio/xiandai-shizhuang/04.03.PNG'),
-  portfolioImage('/portfolio/xiandai-shizhuang/15.jpg'),
-  portfolioImage('/portfolio/xiandai-shizhuang/16.jpg'),
-  portfolioImage('/portfolio/xiandai-shizhuang/05,03.PNG'),
-  portfolioImage('/portfolio/xiandai-shizhuang/05.02.PNG'),
-  portfolioImage('/portfolio/xiandai-shizhuang/18.jpg'),
-  portfolioImage('/portfolio/xiandai-shizhuang/19.jpg'),
-  portfolioImage('/portfolio/xiandai-shizhuang/20.gif'),
-  portfolioImage('/portfolio/xiandai-shizhuang/21.gif'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/01.2.PNG'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/01.3.PNG'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/02.jpg'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/03.jpg'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/04.gif'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/05.gif'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/02.2.PNG'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/02.3.PNG'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/07.jpg'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/08.jpg'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/09.gif'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/10.gif'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/03.02.JPG'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/03.03.JPG'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/12.jpg'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/13.jpg'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/04.02.PNG'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/04.03.PNG'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/15.jpg'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/16.jpg'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/05,03.PNG'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/05.02.PNG'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/18.jpg'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/19.jpg'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/20.gif'),
+  portfolioImageSet('/portfolio/xiandai-shizhuang/21.gif'),
 ];
 const modernFashionLayouts: Array<'full' | 'half'> = [
   'half',
@@ -259,32 +274,32 @@ export const CATEGORIES: Category[] = [
     id: 'gufeng-shizhuang',
     title: '古风时装',
     subtitle: 'Ancient Costume Design',
-    coverImage: ancientFashionImages[0],
-    stackImages: [ancientFashionImages[1], ancientFashionImages[2]],
+    coverImage: ancientFashionImages[0].thumb,
+    stackImages: [ancientFashionImages[1].thumb, ancientFashionImages[2].thumb],
     artworks: makeArtworks('gufeng-shizhuang', ancientFashionImages, ancientFashionTitles, ancientFashionDescriptions)
   },
   {
     id: 'xiandai-shizhuang',
     title: '现代时装',
     subtitle: 'Modern Fashion Design',
-    coverImage: modernFashionImages[0],
-    stackImages: [modernFashionImages[1], modernFashionImages[2]],
+    coverImage: modernFashionImages[0].thumb,
+    stackImages: [modernFashionImages[1].thumb, modernFashionImages[2].thumb],
     artworks: makeArtworks('xiandai-shizhuang', modernFashionImages, modernFashionTitles, modernFashionDescriptions, modernFashionLayouts)
   },
   {
     id: 'shenshou-shenqi',
     title: '神兽神器',
     subtitle: 'Mythical Creature & Artifact',
-    coverImage: mythicalArtifactImages[0],
-    stackImages: [mythicalArtifactImages[1], mythicalArtifactImages[2]],
+    coverImage: mythicalArtifactImages[0].thumb,
+    stackImages: [mythicalArtifactImages[1].thumb, mythicalArtifactImages[2].thumb],
     artworks: makeArtworks('shenshou-shenqi', mythicalArtifactImages, mythicalArtifactTitles, mythicalArtifactDescriptions)
   },
   {
     id: 'shangye-chahua',
     title: '商业插画',
     subtitle: 'Commercial Illustration',
-    coverImage: portfolioImage('/portfolio/shangye-chahua/8.png'),
-    stackImages: [commercialIllustrationImages[1], commercialIllustrationImages[2]],
+    coverImage: commercialIllustrationImages[7].thumb,
+    stackImages: [commercialIllustrationImages[1].thumb, commercialIllustrationImages[2].thumb],
     artworks: makeArtworks('shangye-chahua', commercialIllustrationImages, commercialIllustrationTitles, commercialIllustrationDescriptions)
   }
 ];
@@ -333,7 +348,7 @@ export const RESUME_PROFILE: ResumeProfile = {
         '3 年累计上线内容超过 80+ 件，包括服装 / 皮肤 40+ 套，武器 10+ 件，武魂 / 宠物 20+ 组，坐骑 10+ 款。',
         '所负责皮肤主题平均付费转化率较常规款提高 12%-18%，多套皮肤进入当期活动销量 TOP 3，联动内容曝光量达到平时版本 200%+。',
         '高效快速完成角色设计方向设计和细化工作，结合 AI 的 LoRA 模型进行前期方向探索，用于爆发式生成主题草图、构图、材质思路等，为团队提供更多视觉可能性。',
-        '引入 AIT 工作流后，通过 LoRA 快速生成方向稿，前期方案探索时间缩短 30%，AI 辅助细化使最终成稿渲染速度提升 20%-30%。',
+        '引入 AI 工作流后，通过 LoRA 快速生成方向稿，前期方案探索时间缩短 30%，AI 辅助细化使最终成稿渲染速度提升 20%-30%。',
         '与 3D、动效团队协作效率提升显著，AI 优化的“结构拟真稿”让建模还原度稳定在 90%+，减少沟通回合，返工率下降约 20%。'
       ]
     }

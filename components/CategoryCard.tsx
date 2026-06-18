@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Category } from '../types';
 
@@ -8,6 +8,21 @@ interface CategoryCardProps {
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category, onClick }) => {
+  const [canHover, setCanHover] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const updateCanHover = () => setCanHover(media.matches && window.innerWidth >= 768);
+
+    updateCanHover();
+    media.addEventListener('change', updateCanHover);
+    window.addEventListener('resize', updateCanHover);
+    return () => {
+      media.removeEventListener('change', updateCanHover);
+      window.removeEventListener('resize', updateCanHover);
+    };
+  }, []);
+
   return (
     <motion.div
       className="group relative cursor-pointer"
@@ -17,52 +32,56 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, onClick }) => {
       onClick={() => onClick(category)}
     >
       <div className="relative aspect-[3/4] w-full max-w-sm mx-auto">
-        
-        {/* Stack Layer 2 (Bottom) - Lighter shadow */}
-        <motion.div
-          className="absolute inset-0 bg-white shadow-sm rounded-sm overflow-hidden border border-gray-100"
-          variants={{
-            rest: { rotate: 0, x: 0, y: 0, opacity: 0 },
-            hover: { 
-              rotate: 6, 
-              x: 15, 
-              y: 5, 
-              opacity: 1,
-              transition: { duration: 0.4, ease: "backOut" } 
-            }
-          }}
-        >
-          <img 
-            src={category.stackImages[1]} 
-            alt="" 
-            className="w-full h-full object-cover opacity-80" 
-            loading="lazy"
-            decoding="async"
-          />
-        </motion.div>
 
-        {/* Stack Layer 1 (Middle) */}
-        <motion.div
-          className="absolute inset-0 bg-white shadow-sm rounded-sm overflow-hidden border border-gray-100"
-          variants={{
-            rest: { rotate: 0, x: 0, y: 0, opacity: 0 },
-            hover: { 
-              rotate: -4, 
-              x: -15, 
-              y: 5, 
-              opacity: 1,
-              transition: { duration: 0.3, ease: "backOut" } 
-            }
-          }}
-        >
-          <img 
-            src={category.stackImages[0]} 
-            alt="" 
-            className="w-full h-full object-cover opacity-90" 
-            loading="lazy"
-            decoding="async"
-          />
-        </motion.div>
+        {canHover && (
+          <>
+            {/* Stack Layer 2 (Bottom) - Lighter shadow */}
+            <motion.div
+              className="absolute inset-0 bg-white shadow-sm rounded-sm overflow-hidden border border-gray-100"
+              variants={{
+                rest: { rotate: 0, x: 0, y: 0, opacity: 0 },
+                hover: {
+                  rotate: 6,
+                  x: 15,
+                  y: 5,
+                  opacity: 1,
+                  transition: { duration: 0.4, ease: "backOut" }
+                }
+              }}
+            >
+              <img
+                src={category.stackImages[1]}
+                alt=""
+                className="w-full h-full object-cover opacity-80"
+                loading="lazy"
+                decoding="async"
+              />
+            </motion.div>
+
+            {/* Stack Layer 1 (Middle) */}
+            <motion.div
+              className="absolute inset-0 bg-white shadow-sm rounded-sm overflow-hidden border border-gray-100"
+              variants={{
+                rest: { rotate: 0, x: 0, y: 0, opacity: 0 },
+                hover: {
+                  rotate: -4,
+                  x: -15,
+                  y: 5,
+                  opacity: 1,
+                  transition: { duration: 0.3, ease: "backOut" }
+                }
+              }}
+            >
+              <img
+                src={category.stackImages[0]}
+                alt=""
+                className="w-full h-full object-cover opacity-90"
+                loading="lazy"
+                decoding="async"
+              />
+            </motion.div>
+          </>
+        )}
 
         {/* Main Card (Top) - Premium Apple-style shadow */}
         <motion.div
@@ -72,17 +91,17 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, onClick }) => {
           }}
           variants={{
             rest: { y: 0 },
-            hover: { 
-              y: -12, 
+            hover: {
+              y: -12,
               boxShadow: '0 20px 40px -12px rgba(0,0,0,0.12)',
-              transition: { duration: 0.3, ease: "easeOut" } 
+              transition: { duration: 0.3, ease: "easeOut" }
             }
           }}
         >
           <div className="w-full h-full overflow-hidden">
-             <motion.img 
-              src={category.coverImage} 
-              alt={category.title} 
+             <motion.img
+              src={category.coverImage}
+              alt={category.title}
               className="w-full h-full object-cover grayscale-[10%] group-hover:grayscale-0 transition-all duration-700"
               loading="lazy"
               decoding="async"
@@ -92,7 +111,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, onClick }) => {
               }}
             />
           </div>
-          
+
           {/* Minimalist Overlay */}
           <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-white/95 via-white/80 to-transparent pt-12">
             <h3 className="text-xl font-serif font-bold text-ink mb-1">{category.title}</h3>

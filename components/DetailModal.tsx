@@ -96,7 +96,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, category, onClose }) 
                       type="button"
                       onClick={() => setPreviewArtwork(art)}
                       className="relative w-full overflow-hidden bg-white shadow-sm hover:shadow-xl transition-shadow duration-500 rounded-sm mb-5 text-left focus:outline-none focus:ring-2 focus:ring-vermilion/50 group/image"
-                      aria-label={`查看大图：${art.title}`}
+                      aria-label={`查看原图：${art.title}`}
                     >
                       <img 
                         src={art.imageUrl} 
@@ -107,7 +107,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, category, onClose }) 
                       />
                       <span className="absolute right-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-2 text-xs font-medium text-ink shadow-sm opacity-0 transition-opacity duration-300 group-hover/image:opacity-100">
                         <Maximize2 size={14} />
-                        查看大图
+                        查看原图
                       </span>
                     </button>
                     
