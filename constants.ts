@@ -274,7 +274,7 @@ export const CATEGORIES: Category[] = [
     id: 'gufeng-shizhuang',
     title: '古风时装',
     subtitle: 'Ancient Costume Design',
-    coverImage: ancientFashionImages[0].thumb,
+    coverImage: ancientFashionImages[0].gallery,
     stackImages: [ancientFashionImages[1].thumb, ancientFashionImages[2].thumb],
     artworks: makeArtworks('gufeng-shizhuang', ancientFashionImages, ancientFashionTitles, ancientFashionDescriptions)
   },
@@ -290,7 +290,7 @@ export const CATEGORIES: Category[] = [
     id: 'shenshou-shenqi',
     title: '神兽神器',
     subtitle: 'Mythical Creature & Artifact',
-    coverImage: mythicalArtifactImages[0].thumb,
+    coverImage: mythicalArtifactImages[0].gallery,
     stackImages: [mythicalArtifactImages[1].thumb, mythicalArtifactImages[2].thumb],
     artworks: makeArtworks('shenshou-shenqi', mythicalArtifactImages, mythicalArtifactTitles, mythicalArtifactDescriptions)
   },
