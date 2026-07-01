@@ -310,7 +310,7 @@ export const RESUME_PROFILE: ResumeProfile = {
   email: '1446629536@qq.com',
   location: '北京',
   title: '游戏角色原画',
-  photoUrl: '/resume-photo.png',
+  photoUrl: '/resume-photo.png?v=20260701',
   workExperience: [
     {
       company: '腾讯系项目组（北京永航科技合作）',
